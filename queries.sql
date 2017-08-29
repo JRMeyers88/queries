@@ -1,11 +1,34 @@
--- SELECT s.title,a.artistname
--- from song s,artist a 
--- WHERE a.artistname = "artist" and
--- s.artistId = a.artistId
+SELECT s.title,a.artistname
+from song s,artist a 
+WHERE a.artistname = "artist" and
+s.artistId = a.artistId
+    -- is the same as...
+SELECT s.title,a.artistname
+from song s
+JOIN artist a ON s.artistId = a.artistId
+WHERE a.artistname = "Jay Z"
+
+SELECT s.title,al.title,ar.artistname
+from artist ar, album al 
+LEFT JOIN song s ON al.albumId = s.albumId
+WHERE ar.artistname = "Beatles"
+AND al.artistId = ar.ArtistId
 
 -- insert into "tablename"
 --  (first_column,...last_column)
 --   values (first_value,...last_value);
+
+SELECT s.title AS "霊界ヌ〜ボ〜♨", ar.artistname, al.title as "Album"
+FROM artist ar
+JOIN Album al ON al.ArtistId = ar.artistid
+LEFT JOIN song s ON al.albumid = s.albumid
+WHERE ar.artistname = "八十八ヵ所巡礼"
+
+SELECT a.title,COUNT(songid)
+FROM song s
+LEFT JOIN Album a ON s.albumid = a.albumid
+GROUP BY s.albumid
+ORDER BY COUNT(songid)
 
 
 -- Query all of the entries in the Genre table
@@ -49,6 +72,13 @@ SELECT count(genreId) FROM Song GROUP BY genreId
 
 -- Using MAX() function, write a select statement to find the album with the longest duration. The result should display the album title and the duration.
 SELECT MAX(albumLength) FROM album
+
+SELECT albumlength, title
+FROM album
+WHERE albumlength = (SELECT MAX(albumlength) FROM album)
+
+SELECT MAX(albumlength) as "length", title
+FROM album
 
 -- Using MAX() function, write a select statement to find the song with the longest duration. The result should display the song title and the duration.
 SELECT MAX(songLength) FROM song
